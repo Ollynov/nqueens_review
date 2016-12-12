@@ -136,30 +136,39 @@
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
-    // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      size = this.get('n');
-      // travel down the board
+
+      var size = this.get('n');
       var count = 0;
-      for (var row = 0; row < (size - majorDiagonalColumnIndexAtFirstRow); row++) {
-        var rowArray = this.get(row);
-        var specificNum = rowArray[majorDiagonalColumnIndexAtFirstRow + row];
-        count += specificNum;
+      var rowIdx = 0;
+      var colIdx = majorDiagonalColumnIndexAtFirstRow;
+
+      for ( ; rowIdx < size && colIdx < size; rowIdx++, colIdx++ ) {
+        if ( colIdx >= 0 ) {
+          var row = this.get(rowIdx);
+          count += row[colIdx];
+        }
       }
 
       return count > 1;
     },
 
     // test if any major diagonals on this board contain conflicts
+
+
     hasAnyMajorDiagonalConflicts: function() {
-      size = this.get('n');
-      for (var i = 0; i < size; i++) {
-        if (this.hasMajorDiagonalConflictAt(i)) {
+
+      var size = this.get('n');
+
+      for ( var i = 1 - size; i < size; i++ ) {
+        if ( this.hasMajorDiagonalConflictAt(i) ) {
           return true;
         }
       }
+
       return false;
     },
+
 
 
 
