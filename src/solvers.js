@@ -16,10 +16,31 @@
 
 
 window.findNRooksSolution = function(n) {
-  var solution = undefined; //fixme
+  // go through every spot possible and check to see if there is any row conflict. If not, then place a rook
+  // once you hit n rooks, return the board
 
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return solution;
+  var board = new Board({n: n});
+  var count = 0;
+  console.log('here at least? wtf? ')
+  for (var k = 0; k < n; k++) {
+    for (var b = 0; b < n; b++) {
+      board.togglePiece(k, b);
+      console.log('ok we just temporarily toggled for k and b values ', k, ' ', b)
+      if (board.hasAnyRowConflicts() === false && board.hasAnyColConflicts() === false) {
+        // keep plaed down
+        console.log('no conflicts, and board looks like ', board, ' and count is ', count, ' and n was ', n);
+        count++;
+        if (count === n) {
+          console.log('we in here bruh and board is ', board);
+          return board;
+        }
+      } else {
+        board.togglePiece(k, b);
+      }
+    }
+  }
+  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(board));
+  //return solution;
 };
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
